@@ -1,0 +1,201 @@
+@import 'tailwindcss';
+
+@theme {
+  /* ---- Base industrial (claro) ----
+     A escala mantém a mesma semântica do tema escuro: o número maior é a
+     superfície "mais funda" (faixas recuadas) e o menor, a borda mais forte. */
+  --color-ink-950: #e9edf2; /* faixas recuadas / seções alternadas */
+  --color-ink-900: #f7f8fa; /* fundo da página */
+  --color-ink-850: #ffffff; /* cards */
+  --color-ink-800: #f0f2f6; /* tiles internos, chips */
+  --color-ink-700: #e1e6ec; /* bordas de card, grades */
+  --color-ink-600: #d2d9e1; /* bordas */
+  --color-ink-500: #b9c2cd; /* bordas ativas / scrollbar */
+
+  /* ---- Aço / texto (invertido para fundo claro) ---- */
+  --color-steel-400: #5f6874;
+  --color-steel-300: #48515d;
+  --color-steel-200: #2f3841;
+  --color-steel-100: #10151b;
+
+  /* ---- Acento da marca (dourado) ----
+     400/300 são preenchimento (botões, chips); 700/600 são as versões
+     legíveis quando o dourado vira texto ou ícone sobre fundo claro. */
+  --color-gold-700: #7d5100;
+  --color-gold-600: #a06a05;
+  --color-gold-500: #cf9000;
+  --color-gold-400: #e8a90f;
+  --color-gold-300: #f7c73d;
+
+  /* ---- Campo (uso pontual, semântico) ---- */
+  --color-field-600: #14602f;
+  --color-field-500: #1f7a3d;
+  --color-field-400: #2a9d52;
+
+  --color-danger: #b91c1c;
+
+  --font-display: 'Archivo', 'Arial Narrow', system-ui, sans-serif;
+  --font-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  --ease-out-industrial: cubic-bezier(0.22, 1, 0.36, 1);
+
+  --radius-card: 14px;
+}
+
+@layer base {
+  * {
+    border-color: --alpha(var(--color-ink-600) / 60%);
+  }
+
+  html {
+    color-scheme: light;
+    -webkit-text-size-adjust: 100%;
+    scroll-padding-top: 5.5rem;
+  }
+
+  body {
+    background-color: var(--color-ink-900);
+    color: var(--color-steel-200);
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    color: var(--color-steel-100);
+    line-height: 1.08;
+    letter-spacing: -0.015em;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-gold-600);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  ::selection {
+    background: var(--color-gold-400);
+    color: var(--color-steel-100);
+  }
+
+  /* Scrollbar discreta, coerente com o tema */
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--color-ink-950);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-ink-600);
+    border-radius: 999px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--color-ink-500);
+  }
+}
+
+@layer components {
+  /* Textura sutil de chapa de aço — puro CSS, zero requisição */
+  .bg-plate {
+    background-image:
+      linear-gradient(
+        180deg,
+        --alpha(var(--color-ink-900) / 100%),
+        --alpha(var(--color-ink-950) / 100%)
+      ),
+      repeating-linear-gradient(
+        135deg,
+        --alpha(var(--color-steel-100) / 4%) 0px,
+        --alpha(var(--color-steel-100) / 4%) 1px,
+        transparent 1px,
+        transparent 7px
+      );
+  }
+
+  .bg-grid {
+    background-image:
+      linear-gradient(--alpha(var(--color-steel-400) / 8%) 1px, transparent 1px),
+      linear-gradient(90deg, --alpha(var(--color-steel-400) / 8%) 1px, transparent 1px);
+    background-size: 56px 56px;
+  }
+
+  .text-gradient-gold {
+    background: linear-gradient(
+      100deg,
+      var(--color-gold-600) 0%,
+      var(--color-gold-700) 55%,
+      var(--color-gold-600) 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .hairline {
+    background: linear-gradient(
+      90deg,
+      transparent,
+      --alpha(var(--color-gold-500) / 55%),
+      transparent
+    );
+  }
+}
+
+@utility container-page {
+  width: 100%;
+  margin-inline: auto;
+  max-width: 80rem;
+  padding-inline: 1.25rem;
+  @media (width >= 768px) {
+    padding-inline: 2rem;
+  }
+}
+
+/* Marquee de logos — animação CSS (mais leve que JS) */
+@keyframes marquee-x {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.animate-marquee {
+  animation: marquee-x 38s linear infinite;
+}
+
+@keyframes sheen {
+  0% {
+    transform: translateX(-120%) skewX(-18deg);
+  }
+  100% {
+    transform: translateX(320%) skewX(-18deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
