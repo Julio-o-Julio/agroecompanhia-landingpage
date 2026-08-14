@@ -1,0 +1,67 @@
+name: Deploy no GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# Permissões exigidas pelo deploy via GitHub Actions (Pages + OIDC).
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Um deploy por vez; não cancela o que já está publicando.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      # Domínio próprio (CNAME) ou repo <user>.github.io servem na raiz.
+      # Nos demais casos, o site fica sob /<nome-do-repo>/.
+      - name: Definir base path
+        id: base
+        run: |
+          repo="${GITHUB_REPOSITORY#*/}"
+          owner="${GITHUB_REPOSITORY%%/*}"
+          if [ -f public/CNAME ] || [ -f CNAME ] || \
+             [ "$(echo "$repo" | tr '[:upper:]' '[:lower:]')" = "$(echo "$owner" | tr '[:upper:]' '[:lower:]').github.io" ]; then
+            echo "value=/" >> "$GITHUB_OUTPUT"
+          else
+            echo "value=/$repo/" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Build
+        env:
+          VITE_BASE: ${{ steps.base.outputs.value }}
+        run: pnpm build
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

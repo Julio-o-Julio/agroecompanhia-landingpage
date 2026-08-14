@@ -6,6 +6,8 @@
  *    por dados reais antes de publicar.
  */
 
+import { asset } from '../lib/asset'
+
 export const CONTACTS = {
   instagram: 'https://instagram.com/agroecompanhia',
   instagramHandle: '@agroecompanhia',
@@ -92,7 +94,7 @@ export const PRODUCTS: Product[] = [
     tagline: 'Plataforma Draper que engole a lavoura sem engasgar.',
     description:
       'Uma evolução completa no sistema de alimentação da plataforma Draper. O módulo agressivo aumenta o poder de arraste do material para o canal do alimentador, elimina o acúmulo no centro da plataforma e mantém o fluxo constante mesmo em soja alta, palhada pesada ou lavoura deitada.',
-    image: '/images/produto-modulo.svg',
+    image: asset('/images/produto-modulo.svg'),
     imageAlt:
       'Módulo agressivo instalado no rolo central de uma plataforma Draper de colheitadeira',
     badge: 'Evolução do sistema de alimentação',
@@ -130,7 +132,7 @@ export const PRODUCTS: Product[] = [
     tagline: 'A única do mercado brasileiro. E a colheita agradece.',
     description:
       'Ferramenta, peça de reposição e miudeza cada uma no seu lugar, dentro da máquina, ao alcance da mão. Projetada para o dia a dia da colheita: chuva, poeira, trepidação e pressa. Nasceu de 20 anos vendo operador perder hora procurando chave de 19 no meio do talhão.',
-    image: '/images/produto-caixa.svg',
+    image: asset('/images/produto-caixa.svg'),
     imageAlt: 'Caixa organizadora de ferramentas instalada na colheitadeira',
     badge: 'Produto exclusivo — único no Brasil',
     bullets: [
@@ -233,7 +235,7 @@ export const FOUNDERS = [
   {
     name: 'Nome do Sócio 1',
     role: 'Sócio-fundador · Produção e desenvolvimento',
-    photo: '/images/socio-1.svg',
+    photo: asset('/images/socio-1.svg'),
     quote:
       'Se a peça não aguentar a safra inteira, ela não sai daqui. É simples assim: o nome da gente vai junto com ela.',
     base: 'Santa Helena — PR',
@@ -242,7 +244,7 @@ export const FOUNDERS = [
   {
     name: 'Nome do Sócio 2',
     role: 'Sócio · Comercial e assistência técnica',
-    photo: '/images/socio-2.svg',
+    photo: asset('/images/socio-2.svg'),
     quote:
       'Atendo produtor no meio do talhão, de bota suja. Quem compra da gente fala com gente, não com atendente.',
     base: 'Centro-Oeste e Oeste da Bahia',

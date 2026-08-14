@@ -3,6 +3,7 @@ import { motion, useReducedMotion, useScroll, useTransform } from '../lib/motion
 import { ArrowDown, MessageCircle, ShieldCheck, Factory, MapPin } from 'lucide-react'
 import { ButtonLink } from './ui/Button'
 import { DEFAULT_WHATS, MESSAGES, whatsLink } from '../data/site'
+import { asset } from '../lib/asset'
 
 const HEADLINE = ['Equipamentos', 'que fazem', 'sua colheita']
 
@@ -125,7 +126,7 @@ export function Hero() {
         >
           <div className="relative aspect-[4/5] overflow-hidden rounded-2xl border border-ink-600 sm:aspect-[5/4] lg:aspect-[4/5]">
             <motion.img
-              src="/images/hero-plataforma.svg"
+              src={asset('/images/hero-plataforma.svg')}
               alt="Colheitadeira com plataforma Draper equipada com módulo agressivo em operação"
               width={1200}
               height={1200}
