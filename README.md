@@ -44,19 +44,41 @@ em `site.ts`). Use **JPG/WebP** e comprima antes de subir.
 
 | Arquivo | Proporção | O que fotografar |
 | --- | --- | --- |
-| `hero-plataforma` | 1:1 (1200×1200) | Colheitadeira com a plataforma Draper **em operação**, na lavoura, luz de fim de tarde. Máquina em 3/4, poeira/palha no ar. É a primeira imagem do site — vale contratar. |
-| `produto-modulo` | 4:3 (1200×900) | O módulo **instalado** na plataforma, close no rolo central. Peça limpa, foco no detalhe da geometria. |
-| `produto-caixa` | 4:3 (1200×900) | A caixa **aberta**, com ferramentas organizadas dentro, montada na máquina. |
+| `produto-modulo` | 3:2 | ⚠️ Ainda o placeholder. Fotos do módulo **instalado** na plataforma, close no rolo central — ver "Fotos de produto" abaixo. |
 | `socio-1` / `socio-2` | 3:2 ou 4:5 | Retrato dos sócios, camisa da empresa, olhando para a câmera, fundo real: um na oficina, outro na lavoura. Nada de fundo branco de estúdio. |
 | `oficina` | 3:2 (1200×800) | Bancada / solda / corte de chapa. Prova de fabricação própria. |
 | `detalhe-1`, `detalhe-2` | 1:1 | Closes de acabamento, solda e pintura (opcional, para uso futuro). |
-| `og-cover` | 1200×630 | Imagem que aparece ao compartilhar o link no WhatsApp. |
+| `og-cover.png` | 1200×630 | ✅ Pronta — gerada com a logo oficial. É o que aparece ao compartilhar o link no WhatsApp. |
 
 **Direção de arte:** fotos reais, sem filtro pesado, contraste alto, tons quentes de fim de tarde
 combinando com o dourado da marca. Evite banco de imagens genérico — o site inteiro vende
 “feito por quem põe a mão na máquina”, e foto de estoque derruba isso.
 
 **Logos de clientes:** PNG/SVG com fundo transparente, versão monocromática clara de preferência.
+
+**Fotos de produto (carrossel):** cada produto em `src/data/site.ts` tem uma lista `images`
+e a primeira da lista é a que abre o carrossel. Para adicionar fotos:
+
+1. jogue os arquivos em `public/images/products/`;
+2. rode `python3 scripts/fotos-produto.py` (gera os WebP de 1152, 720 e 200 px);
+3. acrescente `photo('nome-do-arquivo-sem-extensão', 'texto alternativo')` na lista `images`
+   do produto certo.
+
+Com uma foto só o carrossel some — fica a imagem estática, sem setas nem miniaturas. As fotos
+da caixa organizadora já estão no ar; as do módulo agressivo ainda são placeholder.
+
+**Vídeo do hero:** `public/videos/video-colhedeira.mp4` (9:16, servido sem recompressão).
+O `<video>` nasce só com o poster (`video-colhedeira-poster.webp`, 30 KB) e o MP4 só começa a
+baixar depois do evento `load` da página — ver `src/components/HeroVideo.tsx`. Para trocar o
+vídeo: substitua o MP4 e regere o poster com
+`ffmpeg -i video-colhedeira.mp4 -frames:v 1 poster.png` + conversão para WebP.
+
+**Marca própria:** a logo oficial vive em `public/images/logo-agro-companhia.png` (PNG com fundo
+transparente, 900 px de largura) e é usada pelo componente `src/components/Logo.tsx` no header e
+no rodapé. Os ícones (`public/favicon.ico`, `favicon-192.png`, `favicon-512.png`,
+`apple-touch-icon.png`) são a mesma logo sobre um quadrado branco de cantos
+arredondados. Para regerar tudo a partir de um novo arquivo de arte, o caminho é: recortar o
+fundo, salvar o PNG transparente em `public/images/` e recompor os ícones no mesmo enquadramento.
 
 ---
 

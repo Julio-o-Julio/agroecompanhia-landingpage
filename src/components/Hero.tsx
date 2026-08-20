@@ -2,8 +2,8 @@ import { useRef } from 'react'
 import { motion, useReducedMotion, useScroll, useTransform } from '../lib/motion'
 import { ArrowDown, MessageCircle, ShieldCheck, Factory, MapPin } from 'lucide-react'
 import { ButtonLink } from './ui/Button'
+import { HeroVideo } from './HeroVideo'
 import { DEFAULT_WHATS, MESSAGES, whatsLink } from '../data/site'
-import { asset } from '../lib/asset'
 
 const HEADLINE = ['Equipamentos', 'que fazem', 'sua colheita']
 
@@ -17,7 +17,7 @@ export function Hero() {
   const ref = useRef<HTMLElement>(null)
   const reduced = useReducedMotion()
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end start'] })
-  const imgY = useTransform(scrollYProgress, [0, 1], ['0%', reduced ? '0%' : '14%'])
+  const imgY = useTransform(scrollYProgress, [0, 1], ['0%', reduced ? '0%' : '5%'])
   const glowY = useTransform(scrollYProgress, [0, 1], ['0%', reduced ? '0%' : '35%'])
 
   return (
@@ -38,7 +38,7 @@ export function Hero() {
         className="absolute inset-x-0 bottom-0 -z-10 h-40 bg-gradient-to-b from-transparent to-ink-950"
       />
 
-      <div className="container-page grid items-center gap-12 lg:grid-cols-[1.05fr_1fr] lg:gap-16">
+      <div className="container-page grid items-center gap-14 lg:grid-cols-[1fr_22rem] lg:gap-16">
         {/* ---------- coluna texto ---------- */}
         <div>
           <h1 className="font-display text-[clamp(2.4rem,7.2vw,4.6rem)] font-extrabold">
@@ -117,29 +117,23 @@ export function Hero() {
           </motion.ul>
         </div>
 
-        {/* ---------- coluna imagem ---------- */}
+        {/* ---------- coluna vídeo (9:16) ---------- */}
         <motion.div
           initial={{ opacity: 0, scale: 0.96 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.9, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-          className="relative"
+          className="relative mx-auto w-full max-w-[17.5rem] sm:max-w-[20rem] lg:max-w-none"
         >
-          <div className="relative aspect-[4/5] overflow-hidden rounded-2xl border border-ink-600 sm:aspect-[5/4] lg:aspect-[4/5]">
-            <motion.img
-              src={asset('/images/hero-plataforma.svg')}
-              alt="Colheitadeira com plataforma Draper equipada com módulo agressivo em operação"
-              width={1200}
-              height={1200}
-              fetchPriority="high"
-              style={{ y: imgY }}
-              className="size-full scale-110 object-cover"
-            />
+          <div className="relative aspect-[9/16] overflow-hidden rounded-2xl border border-ink-600 bg-ink-800">
+            <motion.div style={{ y: imgY }} className="size-full scale-[1.12]">
+              <HeroVideo />
+            </motion.div>
             <div
-              className="absolute inset-0 bg-gradient-to-t from-ink-950/85 via-transparent to-transparent"
+              className="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink-950/20 via-transparent to-transparent"
               aria-hidden="true"
             />
             <div
-              className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-gold-400/70 to-transparent"
+              className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-gold-400/70 to-transparent"
               aria-hidden="true"
             />
           </div>

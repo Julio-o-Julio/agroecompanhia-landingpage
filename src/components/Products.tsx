@@ -4,6 +4,7 @@ import { PRODUCTS, DEFAULT_WHATS, whatsLink } from '../data/site'
 import type { Product } from '../data/site'
 import { ButtonLink } from './ui/Button'
 import { Reveal, RevealGroup } from './ui/Reveal'
+import { Carousel } from './ui/Carousel'
 
 function ProductBlock({ product, index }: { product: Product; index: number }) {
   const reduced = useReducedMotion()
@@ -19,25 +20,9 @@ function ProductBlock({ product, index }: { product: Product; index: number }) {
         y={30}
         className={`relative ${flipped ? 'lg:order-2' : ''}`}
       >
-        <div className="relative overflow-hidden rounded-2xl border border-ink-600 bg-ink-850">
-          <motion.img
-            src={product.image}
-            alt={product.imageAlt}
-            width={1200}
-            height={900}
-            loading="lazy"
-            decoding="async"
-            className="aspect-[4/3] w-full object-cover"
-            whileHover={reduced ? undefined : { scale: 1.04 }}
-            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-          />
-          <div
-            className="pointer-events-none absolute inset-0 ring-1 ring-gold-400/25 ring-inset"
-            aria-hidden="true"
-          />
-        </div>
+        <Carousel images={product.images} />
 
-        <div className="absolute -top-3 left-5 inline-flex items-center gap-2 rounded-full bg-gold-400 px-3.5 py-1.5 text-xs font-bold tracking-wide text-steel-100 uppercase">
+        <div className="absolute -top-3 left-5 z-10 inline-flex items-center gap-2 rounded-full bg-gold-400 px-3.5 py-1.5 text-xs font-bold tracking-wide text-steel-100 uppercase">
           <Sparkles className="size-3.5" aria-hidden="true" />
           {product.badge}
         </div>

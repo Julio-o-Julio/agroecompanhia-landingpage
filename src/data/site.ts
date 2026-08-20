@@ -69,6 +69,32 @@ export const STATS = [
 /* Produtos                                                             */
 /* ------------------------------------------------------------------ */
 
+export type ProductImage = {
+  src: string
+  srcSet: string
+  thumb: string
+  alt: string
+}
+
+/**
+ * Monta as três versões de uma foto de produto a partir do nome-base.
+ *
+ * As fotos vivem em `public/images/products/`. Junto de cada `.jpeg` original
+ * ficam os derivados `-720`, `-1152` (o que o navegador escolhe pelo `srcSet`)
+ * e `-200` (miniatura). Para adicionar uma foto nova: jogue o arquivo na
+ * pasta, gere os derivados e acrescente uma linha em `images` abaixo — a
+ * primeira da lista é a que abre o carrossel.
+ */
+function photo(base: string, alt: string): ProductImage {
+  const url = (suffix: string) => asset(`/images/products/${base}-${suffix}.webp`)
+  return {
+    src: url('1152'),
+    srcSet: `${url('720')} 720w, ${url('1152')} 1152w`,
+    thumb: url('200'),
+    alt,
+  }
+}
+
 export type Product = {
   id: string
   eyebrow: string
@@ -77,8 +103,7 @@ export type Product = {
   article: 'do' | 'da'
   tagline: string
   description: string
-  image: string
-  imageAlt: string
+  images: ProductImage[]
   badge: string
   bullets: { title: string; text: string }[]
   specs: { label: string; value: string }[]
@@ -94,9 +119,16 @@ export const PRODUCTS: Product[] = [
     tagline: 'Plataforma Draper que engole a lavoura sem engasgar.',
     description:
       'Uma evolução completa no sistema de alimentação da plataforma Draper. O módulo agressivo aumenta o poder de arraste do material para o canal do alimentador, elimina o acúmulo no centro da plataforma e mantém o fluxo constante mesmo em soja alta, palhada pesada ou lavoura deitada.',
-    image: asset('/images/produto-modulo.svg'),
-    imageAlt:
-      'Módulo agressivo instalado no rolo central de uma plataforma Draper de colheitadeira',
+    // ⚠️ PLACEHOLDER: sem fotos do módulo ainda. Trocar por `photo(...)` assim
+    //    que as imagens entrarem em public/images/products/.
+    images: [
+      {
+        src: asset('/images/produto-modulo.svg'),
+        srcSet: '',
+        thumb: asset('/images/produto-modulo.svg'),
+        alt: 'Módulo agressivo instalado no rolo central de uma plataforma Draper de colheitadeira',
+      },
+    ],
     badge: 'Evolução do sistema de alimentação',
     bullets: [
       {
@@ -132,8 +164,26 @@ export const PRODUCTS: Product[] = [
     tagline: 'A única do mercado brasileiro. E a colheita agradece.',
     description:
       'Ferramenta, peça de reposição e miudeza cada uma no seu lugar, dentro da máquina, ao alcance da mão. Projetada para o dia a dia da colheita: chuva, poeira, trepidação e pressa. Nasceu de 20 anos vendo operador perder hora procurando chave de 19 no meio do talhão.',
-    image: asset('/images/produto-caixa.svg'),
-    imageAlt: 'Caixa organizadora de ferramentas instalada na colheitadeira',
+    images: [
+      photo(
+        'foto-varias-caixas-zero',
+        'Caixas organizadoras da Agro & Companhia empilhadas, prontas para entrega',
+      ),
+      photo(
+        'foto-caixa-aberta',
+        'Caixa organizadora aberta, mostrando as divisórias internas e a tampa com a marca Agro & Companhia',
+      ),
+      photo(
+        'foto-uma-caixa',
+        'Caixa organizadora fechada, com a superfície antiderrapante e a plaqueta de identificação',
+      ),
+      photo(
+        'foto-varias-caixas-2',
+        'Detalhe da linha de fechos e plaquetas de várias caixas organizadoras enfileiradas',
+      ),
+      photo('foto-caixas', 'Lote de caixas organizadoras no pátio da fábrica, prontas para carregar'),
+      photo('foto-varias-caixas', 'Caixas organizadoras alinhadas mostrando o acabamento da pintura'),
+    ],
     badge: 'Produto exclusivo — único no Brasil',
     bullets: [
       {

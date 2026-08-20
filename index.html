@@ -4,7 +4,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#F7F8FA" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
+    <link rel="icon" type="image/png" href="/favicon-192.png" sizes="192x192" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
 
     <title>Agro & Companhia — Módulo Agressivo Draper e Caixa Organizadora</title>
     <meta
@@ -12,6 +15,11 @@
       content="Há mais de 20 anos fabricando e mantendo equipamentos para colheitadeiras. Módulo de alimentação agressivo para plataforma Draper e a única caixa organizadora do mercado brasileiro. Santa Helena - PR."
     />
     <link rel="canonical" href="https://agroecompanhia.com.br/" />
+
+    <!-- poster do vídeo do hero: é o que pinta como LCP, então vem na frente.
+         O MP4 (1,6 MB) fica de fora do caminho crítico e só é baixado depois
+         do `load` da página — ver src/components/HeroVideo.tsx. -->
+    <link rel="preload" as="image" href="/videos/video-colhedeira-poster.webp" fetchpriority="high" />
 
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="pt_BR" />
@@ -21,7 +29,10 @@
       property="og:description"
       content="Módulo de alimentação agressivo para plataforma Draper e caixa organizadora. Menos perda, mais fluxo, colheita sem parada."
     />
-    <meta property="og:image" content="/images/og-cover.svg" />
+    <meta property="og:image" content="https://agroecompanhia.com.br/images/og-cover.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Agro & Companhia — para quem vive do agro" />
     <meta name="twitter:card" content="summary_large_image" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -44,6 +55,8 @@
         "@context": "https://schema.org",
         "@type": "LocalBusiness",
         "name": "Agro & Companhia",
+        "logo": "https://agroecompanhia.com.br/images/logo-agro-companhia.png",
+        "image": "https://agroecompanhia.com.br/images/og-cover.png",
         "description": "Manutenção e fabricação de equipamentos para colheitadeiras. Módulo de alimentação agressivo para plataforma Draper e caixa organizadora.",
         "address": {
           "@type": "PostalAddress",

@@ -1,0 +1,15 @@
+{
+  "name": "Agro & Companhia",
+  "short_name": "Agro & Cia",
+  "description": "Módulo agressivo para plataforma Draper e caixa organizadora. Santa Helena — PR.",
+  "start_url": ".",
+  "scope": ".",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#f7f8fa",
+  "icons": [
+    { "src": "favicon-192.png", "type": "image/png", "sizes": "192x192" },
+    { "src": "favicon-512.png", "type": "image/png", "sizes": "512x512" },
+    { "src": "favicon-512.png", "type": "image/png", "sizes": "512x512", "purpose": "maskable" }
+  ]
+}
