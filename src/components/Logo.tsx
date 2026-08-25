@@ -1,3 +1,5 @@
+import { asset } from '../lib/asset'
+
 /**
  * Wordmark da Agro & Companhia.
  * Arte oficial em PNG com fundo transparente (`/images/logo-agro-companhia.png`)
@@ -14,7 +16,7 @@ export function Logo({
   return (
     <span className={`inline-flex flex-col items-start ${className}`}>
       <img
-        src="/images/logo-agro-companhia.png"
+        src={asset('/images/logo-agro-companhia.png')}
         alt="Agro & Companhia"
         width={900}
         height={512}
