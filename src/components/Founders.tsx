@@ -29,8 +29,8 @@ export function Founders() {
                     <img
                       src={founder.photo}
                       alt={`Retrato de ${founder.name}, ${founder.role}`}
-                      width={800}
-                      height={1000}
+                      width={1200}
+                      height={800}
                       loading="lazy"
                       decoding="async"
                       className="size-full object-cover transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.04]"

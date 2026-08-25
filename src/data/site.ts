@@ -296,9 +296,9 @@ export const COMPATIBILITY = [
 
 export const FOUNDERS = [
   {
-    name: 'Nome do Sócio 1',
+    name: 'Emerson Sinhorini',
     role: 'Sócio-fundador · Produção e desenvolvimento',
-    photo: asset('/images/socio-1.svg'),
+    photo: asset('/images/socios/socio-1-1200.webp'),
     quote:
       'Se a peça não aguentar a safra inteira, ela não sai daqui. É simples assim: o nome da gente vai junto com ela.',
     base: 'Santa Helena — PR',
