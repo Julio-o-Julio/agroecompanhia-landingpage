@@ -6,14 +6,14 @@ Uso:
     python3 scripts/fotos-socios.py
 
 Varre `public/images/socios/*.{jpg,jpeg,png}` e, para cada foto, recorta o
-quadro em 3:2 (proporção do card na seção "Quem somos") e escreve:
+quadro em 3:4 em pé (proporção do card na seção "Quem somos") e escreve:
 
-    <nome>-1200.webp   quadro em telas grandes (2x da coluna)
-    <nome>-720.webp    quadro no celular
+    <nome>-900.webp   quadro em telas grandes (2x da coluna)
+    <nome>-600.webp   quadro no celular
 
-O corte é ancorado no alto (ANCORA), não no centro: como são retratos em pé,
-cortar pelo meio decepa a cabeça. Ajuste ANCORA entre 0 (encosta no topo) e
-1 (encosta na base) se alguma foto pedir.
+Quando a foto é mais alta que 3:4, o corte é ancorado no alto (ANCORA), não
+no centro: como são retratos em pé, cortar pelo meio decepa a cabeça. Ajuste
+ANCORA entre 0 (encosta no topo) e 1 (encosta na base) se alguma foto pedir.
 
 Depois é só apontar `photo` do sócio em `src/data/site.ts` para o derivado.
 Os originais podem ficar na pasta (não são baixados por quem visita o site).
@@ -32,8 +32,8 @@ except ImportError:
 RAIZ = Path(__file__).resolve().parent.parent
 PASTA = RAIZ / 'public' / 'images' / 'socios'
 # largura -> qualidade (qualidade alta: é o rosto do dono na página)
-TAMANHOS = {1200: 88, 720: 86}
-PROPORCAO = 3 / 2
+TAMANHOS = {900: 88, 600: 86}
+PROPORCAO = 3 / 4
 ANCORA = 0.0
 ORIGINAIS = ('.jpg', '.jpeg', '.png')
 
