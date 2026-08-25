@@ -36,7 +36,7 @@ export function Founders() {
                       className="size-full object-cover transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.04]"
                     />
                     <div
-                      className="absolute inset-0 bg-gradient-to-t from-ink-850 via-ink-850/20 to-transparent"
+                      className="absolute inset-0 bg-gradient-to-t from-ink-850/70 via-ink-850/10 to-transparent"
                       aria-hidden="true"
                     />
                   </div>
