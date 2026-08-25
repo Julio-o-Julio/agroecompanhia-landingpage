@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { AnimatePresence, motion, useMotionValueEvent, useScroll } from '../lib/motion'
 import { MessageCircle, X } from 'lucide-react'
 import { MESSAGES, WHATSAPP, whatsLink } from '../data/site'
@@ -8,11 +8,49 @@ export function FloatingWhats() {
   const [visible, setVisible] = useState(false)
   const [open, setOpen] = useState(false)
   const { scrollY } = useScroll()
+  const wrap = useRef<HTMLDivElement>(null)
+  const botao = useRef<HTMLButtonElement>(null)
 
-  useMotionValueEvent(scrollY, 'change', (v) => setVisible(v > 700))
+  // Ao esconder o botão o cartão também some; zerar `open` junto evita que ele
+  // reapareça aberto sozinho quando o usuário rolar para baixo de novo.
+  useMotionValueEvent(scrollY, 'change', (v) => {
+    const proximo = v > 700
+    setVisible(proximo)
+    if (!proximo) setOpen(false)
+  })
+
+  /**
+   * Fecha ao tocar/clicar fora do conjunto (botão + cartão) ou ao apertar Esc.
+   *
+   * `pointerdown` cobre mouse e toque de uma vez e dispara antes do `click`,
+   * então clicar direto num link de outra parte da página fecha o cartão e
+   * ainda navega no mesmo gesto. O próprio botão flutuante fica dentro de
+   * `wrap`, então ele continua alternando aberto/fechado como antes.
+   */
+  useEffect(() => {
+    if (!open) return
+    const onPointerDown = (e: PointerEvent) => {
+      if (!wrap.current?.contains(e.target as Node)) setOpen(false)
+    }
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key !== 'Escape') return
+      setOpen(false)
+      // devolve o foco ao botão: quem fechou pelo teclado não fica perdido
+      botao.current?.focus()
+    }
+    document.addEventListener('pointerdown', onPointerDown)
+    document.addEventListener('keydown', onKeyDown)
+    return () => {
+      document.removeEventListener('pointerdown', onPointerDown)
+      document.removeEventListener('keydown', onKeyDown)
+    }
+  }, [open])
 
   return (
-    <div className="fixed right-4 bottom-4 z-50 flex flex-col items-end gap-3 sm:right-6 sm:bottom-6">
+    <div
+      ref={wrap}
+      className="fixed right-4 bottom-4 z-50 flex flex-col items-end gap-3 sm:right-6 sm:bottom-6"
+    >
       <AnimatePresence>
         {open && visible && (
           <motion.div
@@ -47,6 +85,7 @@ export function FloatingWhats() {
       <AnimatePresence>
         {visible && (
           <motion.button
+            ref={botao}
             type="button"
             onClick={() => setOpen((v) => !v)}
             aria-expanded={open}

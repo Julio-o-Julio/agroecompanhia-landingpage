@@ -119,15 +119,24 @@ export const PRODUCTS: Product[] = [
     tagline: 'Plataforma Draper que engole a lavoura sem engasgar.',
     description:
       'Uma evolução completa no sistema de alimentação da plataforma Draper. O módulo agressivo aumenta o poder de arraste do material para o canal do alimentador, elimina o acúmulo no centro da plataforma e mantém o fluxo constante mesmo em soja alta, palhada pesada ou lavoura deitada.',
-    // ⚠️ PLACEHOLDER: sem fotos do módulo ainda. Trocar por `photo(...)` assim
-    //    que as imagens entrarem em public/images/products/.
     images: [
-      {
-        src: asset('/images/produto-modulo.svg'),
-        srcSet: '',
-        thumb: asset('/images/produto-modulo.svg'),
-        alt: 'Módulo agressivo instalado no rolo central de uma plataforma Draper de colheitadeira',
-      },
+      // Imagem de campo gerada por IA (o restante são fotos reais da peça).
+      photo(
+        'foto-modulo-campo',
+        'Módulo agressivo da Agro & Companhia apoiado na lavoura ao entardecer, visto de frente pelo flange de fixação parafusado, com a hélice recortada ao fundo',
+      ),
+      photo(
+        'foto-modulo-perspectiva',
+        'Módulo agressivo da Agro & Companhia em vista de três-quartos, mostrando as duas hélices recortadas soldadas ao tubo central',
+      ),
+      photo(
+        'foto-modulo-lateral',
+        'Vista lateral do módulo agressivo, com as hélices em posições opostas ao longo do tubo',
+      ),
+      photo(
+        'foto-modulo-angulos',
+        'Composição com quatro ângulos do módulo agressivo: laterais e vistas em perspectiva das duas extremidades',
+      ),
     ],
     badge: 'Evolução do sistema de alimentação',
     bullets: [
