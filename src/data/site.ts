@@ -26,8 +26,8 @@ export type WhatsContact = {
 export const WHATSAPP: WhatsContact[] = [
   {
     id: "sul",
-    label: "Matriz — Sul",
-    region: "Paraná, Santa Catarina e Rio Grande do Sul",
+    label: "Matriz — Sul e Paraguai",
+    region: "Paraná, Santa Catarina, Rio Grande do Sul e Paraguai",
     display: "(45) 98820-8668",
     e164: "5545988208668",
   },
@@ -76,7 +76,7 @@ export const STATS = [
     value: 7,
     suffix: "",
     label: "estados atendidos",
-    hint: "Sul, Centro-Oeste e Bahia",
+    hint: "Sul, Centro-Oeste, Bahia — e Paraguai",
   },
   {
     value: 100,
@@ -297,8 +297,8 @@ export const PROCESS = [
   {
     step: "03",
     icon: "truck",
-    title: "Entrega no Brasil",
-    text: "Envio para Sul, Centro-Oeste e Oeste da Bahia. Prazo combinado antes da safra, não durante.",
+    title: "Entrega no Brasil e no Paraguai",
+    text: "Envio para Sul, Centro-Oeste, Oeste da Bahia e para o Paraguai. Prazo combinado antes da safra, não durante.",
   },
   {
     step: "04",
@@ -404,6 +404,14 @@ export const COVERAGE = {
       detail: "Região de Luís Eduardo Magalhães e Barreiras",
       contact: "centro-oeste",
     },
+    {
+      // ⚠️ PLACEHOLDER: confirmar os departamentos do Paraguai onde já há
+      // máquina rodando (Alto Paraná, Canindeyú e Itapúa são um chute pela
+      // proximidade da fronteira com Santa Helena).
+      name: "Paraguai",
+      detail: "Alto Paraná, Canindeyú e Itapúa — atendimento em português",
+      contact: "sul",
+    },
   ],
 };
 
@@ -426,7 +434,11 @@ export const FAQ = [
   },
   {
     q: "Vocês entregam em qual região?",
-    a: "Atendemos todo o Brasil, com presença mais forte no Sul, Centro-Oeste e Oeste da Bahia. Temos atendimento dedicado em cada uma dessas praças.",
+    a: "Atendemos todo o Brasil, com presença mais forte no Sul, Centro-Oeste e Oeste da Bahia, e também produtores no Paraguai. Temos atendimento dedicado em cada uma dessas praças.",
+  },
+  {
+    q: "Vocês atendem produtores no Paraguai?",
+    a: "Sim. Santa Helena fica na fronteira e atendemos produtores do lado paraguaio como atendemos os daqui: em português, pelo mesmo WhatsApp da matriz, com a entrega combinada antes da safra.",
   },
   {
     q: "Trabalham com revendas de peças agrícolas?",

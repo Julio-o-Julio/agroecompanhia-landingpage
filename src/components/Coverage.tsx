@@ -68,11 +68,11 @@ export function Coverage() {
               Onde atendemos
             </p>
             <h2 className="mt-4 font-display text-[clamp(1.9rem,4.2vw,2.8rem)] font-extrabold">
-              Do Oeste do Paraná ao cerrado baiano
+              Do Paraguai ao cerrado baiano
             </h2>
             <p className="mt-4 text-steel-300">
-              Enviamos para todo o Brasil, com atendimento dedicado nas praças onde a gente já tem
-              máquina rodando com nossos equipamentos.
+              Enviamos para todo o Brasil e para o Paraguai, com atendimento dedicado nas praças
+              onde a gente já tem máquina rodando com nossos equipamentos.
             </p>
           </Reveal>
 
@@ -109,7 +109,7 @@ export function Coverage() {
           </RevealGroup>
 
           <Reveal delay={0.1}>
-            <ul className="mt-6 flex flex-wrap gap-2" aria-label="Estados atendidos">
+            <ul className="mt-6 flex flex-wrap gap-2" aria-label="Estados e países atendidos">
               {COVERAGE.primary.map((uf) => (
                 <li
                   key={uf}
@@ -119,7 +119,7 @@ export function Coverage() {
                 </li>
               ))}
               <li className="rounded-md border border-gold-400/40 bg-gold-400/10 px-3 py-1.5 font-display text-sm font-bold tracking-wide text-gold-700">
-                + Brasil
+                + Brasil e Paraguai
               </li>
             </ul>
           </Reveal>
