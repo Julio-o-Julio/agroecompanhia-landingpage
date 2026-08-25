@@ -99,7 +99,7 @@ export function Carousel({ images, className = '' }: { images: ProductImage[]; c
                 loading={i === 0 ? 'eager' : 'lazy'}
                 decoding="async"
                 draggable={false}
-                className="aspect-4/3 w-full object-cover"
+                className="aspect-3/2 w-full object-cover"
               />
             </div>
           ))}
@@ -143,7 +143,7 @@ export function Carousel({ images, className = '' }: { images: ProductImage[]; c
                   height={150}
                   loading="lazy"
                   decoding="async"
-                  className="aspect-4/3 w-16 object-cover sm:w-20"
+                  className="aspect-3/2 w-16 object-cover sm:w-20"
                 />
               </button>
             </li>

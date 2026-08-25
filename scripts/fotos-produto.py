@@ -5,7 +5,8 @@ Gera os derivados WebP das fotos de produto.
 Uso:
     python3 scripts/fotos-produto.py
 
-Varre `public/images/products/*.{jpg,jpeg,png}` e, para cada foto, escreve:
+Varre `public/images/products/*.{jpg,jpeg,png}` e, para cada foto, recorta o
+quadro em 3:2 pelo centro (proporção que o carrossel usa) e escreve:
 
     <nome>-1152.webp   quadro em telas grandes (2x da coluna de 36rem)
     <nome>-720.webp    quadro no celular
@@ -31,7 +32,21 @@ RAIZ = Path(__file__).resolve().parent.parent
 PASTA = RAIZ / 'public' / 'images' / 'products'
 # largura -> qualidade
 TAMANHOS = {1152: 80, 720: 80, 200: 76}
+# proporção do carrossel — os derivados já saem cortados nela, então o
+# `object-cover` do <img> não corta mais nada.
+PROPORCAO = 3 / 2
 ORIGINAIS = ('.jpg', '.jpeg', '.png')
+
+
+def corta(img: Image.Image) -> Image.Image:
+    """Recorta pelo centro até a foto ficar em PROPORCAO."""
+    if img.width / img.height > PROPORCAO:  # larga demais: tira das laterais
+        largura = round(img.height * PROPORCAO)
+        sobra = (img.width - largura) // 2
+        return img.crop((sobra, 0, sobra + largura, img.height))
+    altura = round(img.width / PROPORCAO)   # alta demais: tira de cima e baixo
+    sobra = (img.height - altura) // 2
+    return img.crop((0, sobra, img.width, sobra + altura))
 
 
 def main() -> int:
@@ -42,7 +57,7 @@ def main() -> int:
 
     total = 0
     for foto in fotos:
-        img = Image.open(foto).convert('RGB')
+        img = corta(Image.open(foto).convert('RGB'))
         for largura, qualidade in TAMANHOS.items():
             destino = PASTA / f'{foto.stem}-{largura}.webp'
             alvo = img.resize(

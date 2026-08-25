@@ -123,7 +123,7 @@ export const PRODUCTS: Product[] = [
       // Imagem de campo gerada por IA (o restante são fotos reais da peça).
       photo(
         'foto-modulo-campo',
-        'Módulo agressivo da Agro & Companhia apoiado na lavoura ao entardecer, visto de frente pelo flange de fixação parafusado, com a hélice recortada ao fundo',
+        'Módulo agressivo da Agro & Companhia deitado no gramado ao entardecer, visto de frente pelo flange de fixação parafusado, com a hélice recortada ao fundo',
       ),
       photo(
         'foto-modulo-perspectiva',
