@@ -138,7 +138,7 @@ export const PRODUCTS: Product[] = [
     eyebrow: "Produto 01",
     name: "Módulo Agressivo",
     article: "do",
-    tagline: "Plataforma Draper que engole a lavoura sem engasgar.",
+    tagline: "Plataforma Draper que trabalha sem parar.",
     description:
       "Uma evolução completa no sistema de alimentação da plataforma Draper. O módulo agressivo aumenta o poder de arraste do material para o canal do alimentador, elimina o acúmulo no centro da plataforma e mantém o fluxo constante mesmo em soja alta, palhada pesada ou lavoura deitada.",
     images: [
