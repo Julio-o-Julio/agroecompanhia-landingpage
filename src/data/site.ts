@@ -256,21 +256,25 @@ export const DIFFERENTIALS = [
 export const PROCESS = [
   {
     step: '01',
+    icon: 'chat',
     title: 'Diagnóstico',
     text: 'Você manda o modelo da plataforma e o problema pelo WhatsApp. A gente confirma a aplicação antes de qualquer orçamento.',
   },
   {
     step: '02',
+    icon: 'factory',
     title: 'Projeto e fabricação',
     text: 'Corte, dobra, solda e montagem na nossa oficina em Santa Helena — PR. Cada conjunto conferido peça por peça.',
   },
   {
     step: '03',
+    icon: 'truck',
     title: 'Entrega no Brasil',
     text: 'Envio para Sul, Centro-Oeste e Oeste da Bahia. Prazo combinado antes da safra, não durante.',
   },
   {
     step: '04',
+    icon: 'wrench',
     title: 'Instalação e acompanhamento',
     text: 'Instruções claras, suporte por vídeo e acompanhamento na primeira colheita com o equipamento.',
   },

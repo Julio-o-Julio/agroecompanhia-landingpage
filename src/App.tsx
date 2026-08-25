@@ -37,7 +37,7 @@ export default function App() {
         <Products />
         <Differentials />
 
-        <Suspense fallback={<SectionFallback className="min-h-screen" />}>
+        <Suspense fallback={<SectionFallback />}>
           <Process />
         </Suspense>
         <Suspense fallback={<SectionFallback />}>
