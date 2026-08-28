@@ -14,13 +14,17 @@ export function Founders() {
             Aqui você fala com o dono. Sempre falou.
           </h2>
           <p className="mt-5 text-lg text-steel-300">
-            Somos dois sócios, uma oficina em Santa Helena — PR e mais de duas
-            décadas de mão em colheitadeira. Quem atende no WhatsApp é a mesma
-            pessoa que solda a peça.
+            Uma oficina em Santa Helena — PR e mais de duas décadas de mão em
+            colheitadeira. Quem atende no WhatsApp é a mesma pessoa que solda a
+            peça.
           </p>
         </Reveal>
 
-        <div className="mt-14 grid gap-6 md:grid-cols-2 md:gap-8">
+        <div
+          className={`mt-14 grid gap-6 md:gap-8 ${
+            FOUNDERS.length > 1 ? "md:grid-cols-2" : "max-w-sm"
+          }`}
+        >
           {FOUNDERS.map((founder, i) => {
             const contact =
               WHATSAPP.find((w) => w.id === founder.whatsId) ?? WHATSAPP[0];

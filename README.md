@@ -24,11 +24,10 @@ Está tudo centralizado em **`src/data/site.ts`** — procure por `PLACEHOLDER`.
 
 | Item | Onde | Situação |
 | --- | --- | --- |
-| Nomes, cargos e frases dos 2 sócios | `FOUNDERS` | ⚠️ fictício |
 | Depoimentos de clientes | `TESTIMONIALS` | ⚠️ **100% fictícios — obrigatório substituir** |
 | Logos/nomes de clientes | `CLIENTS` | ⚠️ fictício (peça autorização de uso da marca) |
 | “500+ plataformas atendidas” | `STATS` | ⚠️ número chutado — confirmar |
-| Fotos (produtos, sócios, oficina) | `public/images/*.svg` | ⚠️ placeholders |
+| Fotos (produtos, oficina) | `public/images/*.svg` | ⚠️ placeholders |
 | Logo da empresa | `src/components/Logo.tsx` | wordmark provisório em tipografia |
 | Domínio no `canonical` e OG | `index.html` | ajustar ao domínio real |
 
@@ -45,7 +44,6 @@ em `site.ts`). Use **JPG/WebP** e comprima antes de subir.
 | Arquivo | Proporção | O que fotografar |
 | --- | --- | --- |
 | `produto-modulo` | 3:2 | ⚠️ Ainda o placeholder. Fotos do módulo **instalado** na plataforma, close no rolo central — ver "Fotos de produto" abaixo. |
-| `socio-1` / `socio-2` | 3:2 ou 4:5 | Retrato dos sócios, camisa da empresa, olhando para a câmera, fundo real: um na oficina, outro na lavoura. Nada de fundo branco de estúdio. |
 | `oficina` | 3:2 (1200×800) | Bancada / solda / corte de chapa. Prova de fabricação própria. |
 | `detalhe-1`, `detalhe-2` | 1:1 | Closes de acabamento, solda e pintura (opcional, para uso futuro). |
 | `og-cover.png` | 1200×630 | ✅ Pronta — gerada com a logo oficial. É o que aparece ao compartilhar o link no WhatsApp. |

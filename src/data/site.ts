@@ -33,8 +33,8 @@ export const WHATSAPP: WhatsContact[] = [
   },
   {
     id: "centro-oeste",
-    label: "Atendimento — Centro-Oeste e Bahia",
-    region: "Mato Grosso, Goiás, Mato Grosso do Sul e Oeste da Bahia",
+    label: "Atendimento — Centro-Oeste",
+    region: "Mato Grosso, Goiás e Mato Grosso do Sul",
     display: "(77) 99877-6858",
     e164: "5577998776858",
   },
@@ -73,10 +73,10 @@ export const STATS = [
     hint: "PLACEHOLDER — confirmar",
   },
   {
-    value: 7,
+    value: 6,
     suffix: "",
     label: "estados atendidos",
-    hint: "Sul, Centro-Oeste, Bahia — e Paraguai",
+    hint: "Sul, Centro-Oeste — e Paraguai",
   },
   {
     value: 100,
@@ -298,7 +298,7 @@ export const PROCESS = [
     step: "03",
     icon: "truck",
     title: "Entrega no Brasil e no Paraguai",
-    text: "Envio para Sul, Centro-Oeste, Oeste da Bahia e para o Paraguai. Prazo combinado antes da safra, não durante.",
+    text: "Envio para o Sul, o Centro-Oeste e o Paraguai. Prazo combinado antes da safra, não durante.",
   },
   {
     step: "04",
@@ -319,7 +319,7 @@ export const COMPATIBILITY = [
 ];
 
 /* ------------------------------------------------------------------ */
-/* Sócios — ⚠️ PLACEHOLDER: trocar nomes, cargos e fotos reais          */
+/* Sócios                                                              */
 /* ------------------------------------------------------------------ */
 
 export const FOUNDERS = [
@@ -329,13 +329,6 @@ export const FOUNDERS = [
     photo: asset("/images/socios/socio-1-900.webp"),
     base: "Santa Helena — PR",
     whatsId: "sul",
-  },
-  {
-    name: "Nome do Sócio 2",
-    role: "Sócio · Comercial e assistência técnica",
-    photo: asset("/images/socio-2.svg"),
-    base: "Centro-Oeste e Oeste da Bahia",
-    whatsId: "centro-oeste",
   },
 ] as const;
 
@@ -363,7 +356,7 @@ export const TESTIMONIALS = [
       "Revendo peça agrícola há 15 anos. O módulo é o item que mais volta cliente falando bem na loja.",
     name: "Nome do cliente",
     role: "Revenda de peças · PLACEHOLDER",
-    location: "Luís Eduardo Magalhães — BA",
+    location: "Rio Verde — GO",
   },
 ] as const;
 
@@ -387,7 +380,7 @@ export const CLIENTS = [
 /* ------------------------------------------------------------------ */
 
 export const COVERAGE = {
-  primary: ["PR", "SC", "RS", "MT", "MS", "GO", "BA"],
+  primary: ["PR", "SC", "RS", "MT", "MS", "GO"],
   regions: [
     {
       name: "Sul",
@@ -397,11 +390,6 @@ export const COVERAGE = {
     {
       name: "Centro-Oeste",
       detail: "Mato Grosso, Mato Grosso do Sul e Goiás",
-      contact: "centro-oeste",
-    },
-    {
-      name: "Oeste da Bahia",
-      detail: "Região de Luís Eduardo Magalhães e Barreiras",
       contact: "centro-oeste",
     },
     {
@@ -434,7 +422,7 @@ export const FAQ = [
   },
   {
     q: "Vocês entregam em qual região?",
-    a: "Atendemos todo o Brasil, com presença mais forte no Sul, Centro-Oeste e Oeste da Bahia, e também produtores no Paraguai. Temos atendimento dedicado em cada uma dessas praças.",
+    a: "Atendemos todo o Brasil, com presença mais forte no Sul e no Centro-Oeste, e também produtores no Paraguai. Temos atendimento dedicado em cada uma dessas praças.",
   },
   {
     q: "Vocês atendem produtores no Paraguai?",

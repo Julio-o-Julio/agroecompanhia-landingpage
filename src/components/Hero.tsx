@@ -10,7 +10,7 @@ const HEADLINE = ['Equipamentos', 'que fazem', 'sua colheita']
 const chips = [
   { icon: ShieldCheck, label: '+20 anos de estrada' },
   { icon: Factory, label: 'Fabricação própria' },
-  { icon: MapPin, label: 'Sul, Centro-Oeste e BA' },
+  { icon: MapPin, label: 'Sul, Centro-Oeste e Paraguai' },
 ]
 
 export function Hero() {
