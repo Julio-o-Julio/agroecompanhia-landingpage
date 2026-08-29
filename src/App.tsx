@@ -5,6 +5,7 @@ import { Hero } from './components/Hero'
 import { TrustBar } from './components/TrustBar'
 import { Products } from './components/Products'
 import { Differentials } from './components/Differentials'
+import { SHOW_SOCIAL_PROOF } from './data/site'
 
 /* Tudo abaixo da dobra entra por code-splitting: o bundle inicial fica enxuto. */
 const Process = lazy(() => import('./components/Process').then((m) => ({ default: m.Process })))
@@ -46,7 +47,8 @@ export default function App() {
         <Suspense fallback={<SectionFallback />}>
           <Founders />
         </Suspense>
-        <Suspense fallback={<SectionFallback className="min-h-[50vh]" />}>
+        {/* fallback só reserva altura se a seção for de fato aparecer */}
+        <Suspense fallback={SHOW_SOCIAL_PROOF ? <SectionFallback className="min-h-[50vh]" /> : null}>
           <Testimonials />
         </Suspense>
         <Suspense fallback={<SectionFallback className="min-h-[50vh]" />}>

@@ -1,13 +1,17 @@
 import { motion, useReducedMotion, revealItem } from '../lib/motion'
 import { Star } from 'lucide-react'
-import { TESTIMONIALS } from '../data/site'
+import { SHOW_SOCIAL_PROOF, TESTIMONIALS } from '../data/site'
 import { Reveal, RevealGroup } from './ui/Reveal'
 
 export function Testimonials() {
   const reduced = useReducedMotion()
 
   return (
-    <section aria-labelledby="depoimentos-titulo" className="bg-ink-950 py-20 md:py-28">
+    <section
+      aria-labelledby="depoimentos-titulo"
+      /* depoimentos ainda fictícios: seção com display:none até chegarem os reais */
+      className={`bg-ink-950 py-20 md:py-28 ${SHOW_SOCIAL_PROOF ? '' : 'hidden'}`}
+    >
       <div className="container-page">
         <Reveal className="max-w-3xl">
           <p className="font-display text-sm font-bold tracking-[0.22em] text-gold-700 uppercase">

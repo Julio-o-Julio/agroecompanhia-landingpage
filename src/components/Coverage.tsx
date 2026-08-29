@@ -68,7 +68,7 @@ export function Coverage() {
               Onde atendemos
             </p>
             <h2 className="mt-4 font-display text-[clamp(1.9rem,4.2vw,2.8rem)] font-extrabold">
-              Do Paraguai ao cerrado baiano
+              Do Paraguai ao Centro-Oeste
             </h2>
             <p className="mt-4 text-steel-300">
               Enviamos para todo o Brasil e para o Paraguai, com atendimento dedicado nas praças

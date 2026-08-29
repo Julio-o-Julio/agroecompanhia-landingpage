@@ -333,6 +333,17 @@ export const FOUNDERS = [
 ] as const;
 
 /* ------------------------------------------------------------------ */
+/* Prova social fictícia — oculta até chegarem os dados reais            */
+/* ------------------------------------------------------------------ */
+
+/**
+ * Enquanto for `false`, a seção de depoimentos e o marquee de clientes
+ * ficam com `display: none`. Vire para `true` quando `TESTIMONIALS` e
+ * `CLIENTS` estiverem com nomes reais e autorizados.
+ */
+export const SHOW_SOCIAL_PROOF = false;
+
+/* ------------------------------------------------------------------ */
 /* Depoimentos — ⚠️ PLACEHOLDER: 100% fictícios, substituir por reais   */
 /* ------------------------------------------------------------------ */
 

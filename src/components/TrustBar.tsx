@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react'
-import { CLIENTS, STATS } from '../data/site'
+import { CLIENTS, SHOW_SOCIAL_PROOF, STATS } from '../data/site'
 import { prefersReducedMotion } from '../lib/reducedMotion'
 import { useNearViewport } from '../lib/useNearViewport'
 import { Reveal } from './ui/Reveal'
@@ -102,7 +102,8 @@ function ClientLogo({ name }: { name: string }) {
 export function TrustBar() {
   return (
     <section aria-label="Números e clientes" className="bg-ink-950 py-16 md:py-20">
-      <div className="container-page">
+      {/* nomes de clientes ainda fictícios: display:none até virem os reais autorizados */}
+      <div className={`container-page ${SHOW_SOCIAL_PROOF ? '' : 'hidden'}`}>
         <Reveal>
           <p className="text-center text-xs tracking-[0.25em] text-steel-400 uppercase">
             Quem já colhe com a gente
@@ -111,7 +112,9 @@ export function TrustBar() {
       </div>
 
       <div
-        className="group relative mt-8 mask-x-from-85% mask-x-to-100% overflow-hidden"
+        className={`group relative mt-8 mask-x-from-85% mask-x-to-100% overflow-hidden ${
+          SHOW_SOCIAL_PROOF ? '' : 'hidden'
+        }`}
         aria-label="Clientes atendidos"
       >
         <ul className="animate-marquee flex w-max items-center group-hover:[animation-play-state:paused]">
@@ -121,7 +124,7 @@ export function TrustBar() {
         </ul>
       </div>
 
-      <div className="container-page mt-16">
+      <div className={`container-page ${SHOW_SOCIAL_PROOF ? 'mt-16' : ''}`}>
         <Counters />
       </div>
     </section>
