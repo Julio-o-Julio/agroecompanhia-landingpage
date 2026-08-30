@@ -90,6 +90,31 @@ export function Footer() {
             titulares e são mencionadas apenas para indicar compatibilidade.
           </p>
         </div>
+
+        <a
+          href="https://terior.com.br/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="group mt-6 flex flex-col items-center justify-center gap-2 text-xs text-steel-400 sm:flex-row sm:gap-3"
+        >
+          <span className="inline-flex items-center gap-2">
+            <span className="opacity-80 transition-opacity duration-200 group-hover:opacity-100">
+              Produced in
+            </span>
+            <img
+              src="/logo-terior.svg"
+              width="64"
+              height="20"
+              loading="lazy"
+              alt="Terior"
+              className="h-5 w-auto"
+            />
+          </span>
+          <span aria-hidden="true" className="hidden h-4 w-px bg-ink-600 sm:inline-block" />
+          <span className="opacity-80 transition-opacity duration-200 group-hover:opacity-100">
+            Desenvolvido e mantido por Terior
+          </span>
+        </a>
       </div>
     </footer>
   )
