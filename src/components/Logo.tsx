@@ -19,7 +19,7 @@ export function Logo({
         src={asset('/images/logo-agro-companhia.png')}
         alt="Agro & Companhia"
         width={900}
-        height={512}
+        height={489}
         decoding="async"
         className={`w-auto ${withTagline ? 'h-16' : 'h-11 sm:h-13'}`}
       />
