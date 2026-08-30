@@ -6,7 +6,7 @@ export function Founders() {
   return (
     <section id="socios" className="scroll-mt-24 bg-ink-900 py-20 md:py-28">
       <div className="container-page">
-        <Reveal className="max-w-3xl">
+        <Reveal className="mx-auto max-w-3xl text-center">
           <p className="font-display text-sm font-bold tracking-[0.22em] text-gold-700 uppercase">
             Quem somos
           </p>
@@ -22,7 +22,7 @@ export function Founders() {
 
         <div
           className={`mt-14 grid gap-6 md:gap-8 ${
-            FOUNDERS.length > 1 ? "md:grid-cols-2" : "max-w-sm"
+            FOUNDERS.length > 1 ? "md:grid-cols-2" : "mx-auto max-w-sm"
           }`}
         >
           {FOUNDERS.map((founder, i) => {
@@ -43,7 +43,7 @@ export function Founders() {
                     />
                   </div>
 
-                  <div className="p-6 md:p-7">
+                  <div className="p-6 text-center md:p-7">
                     <h3 className="font-display text-xl font-extrabold text-steel-100">
                       {founder.name}
                     </h3>
