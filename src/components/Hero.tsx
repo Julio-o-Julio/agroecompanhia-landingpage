@@ -1,11 +1,22 @@
-import { useRef } from 'react'
-import { motion, useReducedMotion, useScroll, useTransform } from '../lib/motion'
+import { useEffect, useRef, useState } from 'react'
+import {
+  AnimatePresence,
+  motion,
+  useReducedMotion,
+  useScroll,
+  useTransform,
+} from '../lib/motion'
 import { ArrowDown, MessageCircle, ShieldCheck, Factory, MapPin } from 'lucide-react'
 import { ButtonLink } from './ui/Button'
 import { HeroVideo } from './HeroVideo'
+import { asset } from '../lib/asset'
 import { DEFAULT_WHATS, MESSAGES, whatsLink } from '../data/site'
 
 const HEADLINE = ['Equipamentos', 'que fazem', 'sua colheita']
+
+/** Fecho rotativo do título — completa "…sua colheita ___". */
+const ROTATING = ['render mais', 'perder menos', 'fluir melhor', 'não parar']
+const ROTATE_MS = 2800
 
 const chips = [
   { icon: ShieldCheck, label: '+20 anos de estrada' },
@@ -19,6 +30,13 @@ export function Hero() {
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end start'] })
   const imgY = useTransform(scrollYProgress, [0, 1], ['0%', reduced ? '0%' : '5%'])
   const glowY = useTransform(scrollYProgress, [0, 1], ['0%', reduced ? '0%' : '35%'])
+  const bgY = useTransform(scrollYProgress, [0, 1], ['0%', reduced ? '0%' : '8%'])
+  const [phrase, setPhrase] = useState(0)
+
+  useEffect(() => {
+    const id = setInterval(() => setPhrase((i) => (i + 1) % ROTATING.length), ROTATE_MS)
+    return () => clearInterval(id)
+  }, [])
 
   return (
     <section
@@ -26,22 +44,35 @@ export function Hero() {
       ref={ref}
       className="relative isolate overflow-hidden bg-ink-900 pt-28 pb-16 md:pt-36 md:pb-24"
     >
-      {/* fundo */}
+      {/* fundo: foto da lavoura ao pôr do sol */}
+      <motion.div
+        aria-hidden="true"
+        style={{ y: bgY }}
+        className="absolute inset-0 -z-30 scale-110"
+      >
+        <img
+          src={asset('/images/hero-lavoura-1536.webp')}
+          srcSet={`${asset('/images/hero-lavoura-960.webp')} 960w, ${asset('/images/hero-lavoura-1536.webp')} 1536w`}
+          sizes="100vw"
+          alt=""
+          fetchPriority="high"
+          decoding="async"
+          className="size-full object-cover object-center"
+        />
+      </motion.div>
+      {/* máscara: escurece a foto para o texto branco ganhar contraste */}
+      <div aria-hidden="true" className="absolute inset-0 -z-30 bg-black/35" />
+
       <div className="bg-grid absolute inset-0 -z-10 opacity-60" aria-hidden="true" />
       <motion.div
         aria-hidden="true"
         style={{ y: glowY }}
         className="absolute -top-40 -right-20 -z-10 size-[38rem] rounded-full bg-gold-500/12 blur-[130px]"
       />
-      <div
-        aria-hidden="true"
-        className="absolute inset-x-0 bottom-0 -z-10 h-40 bg-gradient-to-b from-transparent to-ink-950"
-      />
-
       <div className="container-page grid items-center gap-14 lg:grid-cols-[1fr_22rem] lg:gap-16">
         {/* ---------- coluna texto ---------- */}
         <div>
-          <h1 className="font-display text-[clamp(2.4rem,7.2vw,4.6rem)] font-extrabold">
+          <h1 className="font-display text-[clamp(2.4rem,7.2vw,4.6rem)] font-extrabold text-white">
             {HEADLINE.map((line, i) => (
               <span key={line} className="block overflow-hidden pb-[0.08em]">
                 <motion.span
@@ -56,12 +87,40 @@ export function Hero() {
             ))}
             <span className="block overflow-hidden pb-[0.08em]">
               <motion.span
-                className="text-gradient-gold block"
+                className="block"
                 initial={{ y: '108%' }}
                 animate={{ y: 0 }}
                 transition={{ duration: 0.75, delay: 0.35, ease: [0.22, 1, 0.36, 1] }}
               >
-                render mais.
+                <span className="inline-grid align-bottom text-gold-400">
+                  {/* sizers invisíveis: reservam a largura da maior frase para o
+                      layout não reflowar a cada troca */}
+                  {ROTATING.map((text) => (
+                    <span
+                      key={text}
+                      aria-hidden="true"
+                      className="invisible col-start-1 row-start-1 whitespace-nowrap"
+                    >
+                      {text}
+                    </span>
+                  ))}
+                  {/* as frases se cruzam empilhadas no mesmo espaço: a que sai
+                      sobe enquanto a que entra vem de baixo, sem linha vazia */}
+                  <span className="relative col-start-1 row-start-1 overflow-hidden">
+                    <AnimatePresence initial={false}>
+                      <motion.span
+                        key={ROTATING[phrase]}
+                        className="absolute inset-x-0 top-0 block whitespace-nowrap"
+                        initial={{ y: reduced ? 0 : '108%', opacity: 0 }}
+                        animate={{ y: 0, opacity: 1 }}
+                        exit={{ y: reduced ? 0 : '-108%', opacity: 0 }}
+                        transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                      >
+                        {ROTATING[phrase]}
+                      </motion.span>
+                    </AnimatePresence>
+                  </span>
+                </span>
               </motion.span>
             </span>
           </h1>
@@ -70,13 +129,13 @@ export function Hero() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.5 }}
-            className="mt-6 max-w-xl text-[1.05rem] text-steel-300 md:text-lg"
+            className="mt-6 max-w-xl text-[1.05rem] text-white md:text-lg"
           >
             Mais de 20 anos de manutenção e fabricação para colheitadeiras. Dois produtos
             desenvolvidos por nós: o{' '}
-            <strong className="font-semibold text-steel-100">módulo agressivo</strong> para
+            <strong className="font-semibold text-white">módulo agressivo</strong> para
             plataforma Draper e a{' '}
-            <strong className="font-semibold text-steel-100">caixa organizadora</strong> — a única do
+            <strong className="font-semibold text-white">caixa organizadora</strong> — a única do
             mercado brasileiro.
           </motion.p>
 
@@ -109,7 +168,7 @@ export function Hero() {
             className="mt-10 flex flex-wrap gap-x-7 gap-y-3"
           >
             {chips.map(({ icon: Icon, label }) => (
-              <li key={label} className="flex items-center gap-2 text-sm text-steel-400">
+              <li key={label} className="flex items-center gap-2 text-sm text-white">
                 <Icon className="size-4 text-gold-700" aria-hidden="true" />
                 {label}
               </li>
