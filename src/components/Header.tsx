@@ -51,7 +51,9 @@ export function Header() {
               <a
                 key={item.href}
                 href={item.href}
-                className="relative rounded-full px-3.5 py-2 text-sm font-medium text-steel-300 transition-colors duration-200 hover:text-gold-700"
+                className={`relative rounded-full px-3.5 py-2 text-sm font-medium transition-colors duration-200 ${
+                  scrolled ? 'text-steel-300 hover:text-gold-700' : 'text-white hover:text-gold-300'
+                }`}
               >
                 {item.label}
               </a>
