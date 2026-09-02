@@ -80,6 +80,43 @@ fundo, salvar o PNG transparente em `public/images/` e recompor os ícones no me
 
 ---
 
+## SEO e leitura por robôs
+
+O site é uma SPA React: o HTML publicado é só `<div id="root"></div>` e o conteúdo aparece
+quando o JavaScript roda. Buscadores levam semanas para renderizar isso e os robôs de IA
+(GPTBot, ClaudeBot, PerplexityBot…) **não executam JavaScript** — para eles a página chega
+vazia. Por isso o build gera uma segunda versão do HTML, já preenchida, só para eles.
+
+| Arquivo | Origem | O que faz |
+| --- | --- | --- |
+| `dist/prerender.html` | `scripts/prerender.mjs` | A página inteira em HTML puro (~1.200 palavras). Gerada abrindo o build num Chromium headless com `prefers-reduced-motion`, o modo em que o site já renderiza estático. |
+| `public/.htaccess` | manual | Manda os robôs conhecidos para o `prerender.html`, redireciona `www` → domínio raiz e define cache. |
+| `public/robots.txt` | manual | Libera buscadores **e** assistentes de IA. Aponta o sitemap. |
+| `public/sitemap.xml` | manual | Uma URL (o site é página única). Atualize o `lastmod` em mudanças grandes. |
+| JSON-LD | `index.html` + prerender | `LocalBusiness`, `WebSite` e dois `Product` são fixos no `index.html`. O `FAQPage` é gerado no build a partir das perguntas reais de `site.ts` — não precisa manter duas listas. |
+
+**O visitante humano não é afetado:** continua recebendo o `index.html` normal, com todas as
+animações. O desvio acontece no servidor, por `User-Agent`.
+
+### O que o prerender limpa automaticamente
+
+- **Texto escondido por CSS não vai para o robô.** Enquanto `SHOW_SOCIAL_PROOF` for `false`, os
+  depoimentos e o marquee de clientes continuam no DOM com `display: none` — sem essa limpeza
+  uma IA leria "Fazenda Santa Clara" e os depoimentos fictícios como se fossem reais.
+- **O `<h1>` vira uma linha só**, com o fecho rotativo fixado na primeira variante.
+- **As sete respostas do FAQ entram no HTML**, mesmo o acordeão só montando a que está aberta.
+
+### Cuidado ao mexer
+
+Se você adicionar conteúdo que só aparece depois de um clique (aba, modal, acordeão novo), ele
+**não** entra no HTML dos robôs. Ou o conteúdo nasce montado, ou `scripts/prerender.mjs` precisa
+abrir aquilo antes de capturar — é o que ele já faz com o FAQ.
+
+Sem Chromium instalado o build **não quebra**: avisa e segue sem gerar o `prerender.html`.
+O `.htaccess` só desvia robôs se o arquivo existir. Para gerar só ele: `pnpm prerender`.
+
+---
+
 ## Estrutura
 
 ```

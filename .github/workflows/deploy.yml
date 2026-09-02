@@ -45,6 +45,12 @@ jobs:
             echo "value=/$repo/" >> "$GITHUB_OUTPUT"
           fi
 
+      # O build gera dist/prerender.html com um Chromium headless
+      # (scripts/prerender.mjs). Sem o browser o build não quebra, mas a
+      # versão para buscadores e IAs não sai.
+      - name: Instalar Chromium para o prerender
+        run: pnpm exec playwright install --with-deps chromium
+
       - name: Build
         env:
           VITE_BASE: ${{ steps.base.outputs.value }}

@@ -17,12 +17,22 @@
     />
     <link rel="canonical" href="https://agroecompanhia.com.br/" />
 
+    <!-- Sem os `max-*` o Google limita o tamanho do trecho e da imagem que
+         mostra no resultado. Com eles, o resultado aparece maior e completo. -->
+    <meta
+      name="robots"
+      content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1"
+    />
+    <meta name="author" content="Agro & Companhia" />
+    <meta name="geo.placename" content="Santa Helena, Paraná, Brasil" />
+
     <!-- poster do vídeo do hero: é o que pinta como LCP, então vem na frente.
          O MP4 (1,6 MB) fica de fora do caminho crítico e só é baixado depois
          do `load` da página — ver src/components/HeroVideo.tsx. -->
     <link rel="preload" as="image" href="/videos/video-colhedeira-poster.webp" fetchpriority="high" />
 
     <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://agroecompanhia.com.br/" />
     <meta property="og:locale" content="pt_BR" />
     <meta property="og:site_name" content="Agro & Companhia" />
     <meta property="og:title" content="Agro & Companhia — Para quem vive do agro" />
@@ -51,28 +61,147 @@
       />
     </noscript>
 
+    <!-- Dados estruturados: é como o Google e as IAs entendem QUEM é a empresa
+         e O QUE ela vende, sem depender de interpretar o texto da página.
+         O bloco FAQPage é gerado no build por scripts/prerender.mjs, a partir
+         das perguntas reais de src/data/site.ts. -->
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
-        "@type": "LocalBusiness",
-        "name": "Agro & Companhia",
-        "logo": "https://agroecompanhia.com.br/images/logo-agro-companhia.png",
-        "image": "https://agroecompanhia.com.br/images/og-cover.png",
-        "description": "Manutenção e fabricação de equipamentos para colheitadeiras. Módulo de alimentação agressivo para plataforma Draper e caixa organizadora.",
-        "address": {
-          "@type": "PostalAddress",
-          "addressLocality": "Santa Helena",
-          "addressRegion": "PR",
-          "addressCountry": "BR"
-        },
-        "telephone": "+5545988208668",
-        "sameAs": ["https://instagram.com/agroecompanhia"],
-        "areaServed": ["Brasil", "Paraguai"]
+        "@graph": [
+          {
+            "@type": ["LocalBusiness", "Manufacturer"],
+            "@id": "https://agroecompanhia.com.br/#empresa",
+            "name": "Agro & Companhia",
+            "alternateName": ["Agro e Companhia", "Agro&Companhia"],
+            "url": "https://agroecompanhia.com.br/",
+            "logo": "https://agroecompanhia.com.br/images/logo-agro-companhia.png",
+            "image": "https://agroecompanhia.com.br/images/og-cover.png",
+            "description": "Fabricação e manutenção de equipamentos para colheitadeiras há mais de 20 anos. Módulo de alimentação agressivo para plataforma Draper e caixa organizadora, com desenvolvimento e fabricação próprios em Santa Helena — PR.",
+            "foundingDate": "2004",
+            "address": {
+              "@type": "PostalAddress",
+              "addressLocality": "Santa Helena",
+              "addressRegion": "PR",
+              "addressCountry": "BR"
+            },
+            "telephone": "+5545988208668",
+            "contactPoint": [
+              {
+                "@type": "ContactPoint",
+                "telephone": "+5545988208668",
+                "contactType": "sales",
+                "name": "Matriz — Sul e Paraguai",
+                "areaServed": ["BR-PR", "BR-SC", "BR-RS", "PY"],
+                "availableLanguage": ["Portuguese"]
+              },
+              {
+                "@type": "ContactPoint",
+                "telephone": "+5577998776858",
+                "contactType": "sales",
+                "name": "Atendimento — Centro-Oeste",
+                "areaServed": ["BR-MT", "BR-GO", "BR-MS"],
+                "availableLanguage": ["Portuguese"]
+              }
+            ],
+            "sameAs": ["https://instagram.com/agroecompanhia"],
+            "areaServed": [
+              { "@type": "Country", "name": "Brasil" },
+              { "@type": "Country", "name": "Paraguai" }
+            ],
+            "knowsAbout": [
+              "Plataforma Draper",
+              "Módulo de alimentação para colheitadeira",
+              "Manutenção de colheitadeira",
+              "Peças para colheitadeira"
+            ]
+          },
+          {
+            "@type": "WebSite",
+            "@id": "https://agroecompanhia.com.br/#site",
+            "url": "https://agroecompanhia.com.br/",
+            "name": "Agro & Companhia",
+            "inLanguage": "pt-BR",
+            "publisher": { "@id": "https://agroecompanhia.com.br/#empresa" }
+          },
+          {
+            "@type": "Product",
+            "@id": "https://agroecompanhia.com.br/#modulo-agressivo",
+            "name": "Módulo Agressivo para plataforma Draper",
+            "category": "Peças e implementos para colheitadeira",
+            "description": "Evolução do sistema de alimentação da plataforma Draper: aumenta o poder de arraste do material para o canal do alimentador, elimina o acúmulo no centro da plataforma e mantém o fluxo constante em soja alta, palhada pesada ou lavoura deitada. Instalação nos pontos originais, sem corte ou adaptação.",
+            "image": "https://agroecompanhia.com.br/images/products/foto-modulo-campo-1152.webp",
+            "brand": { "@id": "https://agroecompanhia.com.br/#empresa" },
+            "manufacturer": { "@id": "https://agroecompanhia.com.br/#empresa" },
+            "material": "Aço de alta resistência",
+            "isAccessoryOrSparePartFor": {
+              "@type": "Product",
+              "name": "Plataforma Draper — John Deere série 600 e 700, GTS e CNH (Case IH e New Holland)"
+            },
+            "url": "https://agroecompanhia.com.br/#produtos"
+          },
+          {
+            "@type": "Product",
+            "@id": "https://agroecompanhia.com.br/#caixa-organizadora",
+            "name": "Caixa Organizadora para colheitadeira",
+            "category": "Acessórios para colheitadeira",
+            "description": "Caixa organizadora para ferramenta, peça de reposição e miudezas dentro da colheitadeira, com divisórias e suporte dedicado. Estrutura reforçada para poeira, chuva e trepidação de safra. Desenvolvimento próprio da Agro & Companhia — sem similar de fábrica no mercado brasileiro.",
+            "image": "https://agroecompanhia.com.br/images/products/foto-caixa-aberta-1152.webp",
+            "brand": { "@id": "https://agroecompanhia.com.br/#empresa" },
+            "manufacturer": { "@id": "https://agroecompanhia.com.br/#empresa" },
+            "material": "Chapa tratada e pintada",
+            "url": "https://agroecompanhia.com.br/#produtos"
+          }
+        ]
       }
     </script>
   </head>
   <body>
     <div id="root"></div>
+
+    <!-- Resumo em HTML puro. Serve para qualquer robô que chegue sem executar
+         JavaScript e que não esteja na lista de user-agents do .htaccess (que
+         desvia os conhecidos para o prerender.html, com a página inteira).
+         Some para quem tem JavaScript ligado — ou seja, para todo visitante. -->
+    <noscript>
+      <div style="max-width: 46rem; margin: 0 auto; padding: 2rem 1.25rem; font-family: system-ui, sans-serif; line-height: 1.6">
+        <h1>Agro &amp; Companhia — equipamentos para colheitadeira</h1>
+        <p>
+          Há mais de 20 anos fabricando e mantendo equipamentos para colheitadeiras em
+          <strong>Santa Helena — Paraná</strong>. Projeto, corte, solda e acabamento feitos na
+          própria oficina. Atendimento no Brasil e no Paraguai.
+        </p>
+
+        <h2>Módulo Agressivo para plataforma Draper</h2>
+        <p>
+          Evolução do sistema de alimentação da plataforma Draper. Aumenta o poder de arraste do
+          material para o canal do alimentador, elimina o acúmulo no centro da plataforma e mantém
+          o fluxo constante em soja alta, palhada pesada ou lavoura deitada. Instalação nos pontos
+          originais, sem corte nem adaptação improvisada. Compatível com John Deere série 600 e
+          700, GTS e CNH (Case IH e New Holland).
+        </p>
+
+        <h2>Caixa Organizadora</h2>
+        <p>
+          Ferramenta, peça de reposição e miudezas organizadas dentro da máquina, ao alcance da
+          mão. Divisórias e suporte dedicado, estrutura reforçada para poeira, chuva e trepidação
+          de safra. Desenvolvimento próprio — sem similar de fábrica no mercado brasileiro.
+        </p>
+
+        <h2>Onde atendemos</h2>
+        <p>
+          Sul (Paraná, Santa Catarina e Rio Grande do Sul), Centro-Oeste (Mato Grosso, Mato Grosso
+          do Sul e Goiás) e Paraguai.
+        </p>
+
+        <h2>Contato</h2>
+        <ul>
+          <li>WhatsApp Sul e Paraguai: <a href="https://wa.me/5545988208668">(45) 98820-8668</a></li>
+          <li>WhatsApp Centro-Oeste: <a href="https://wa.me/5577998776858">(77) 99877-6858</a></li>
+          <li>Instagram: <a href="https://instagram.com/agroecompanhia">@agroecompanhia</a></li>
+        </ul>
+      </div>
+    </noscript>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

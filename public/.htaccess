@@ -1,0 +1,85 @@
+# ---------------------------------------------------------------------------
+# Agro & Companhia — configuração do servidor (Hostinger / Apache · LiteSpeed)
+#
+# Este arquivo mora em `public/` e o Vite o copia para `dist/` no build.
+# Ele precisa acabar na MESMA pasta do index.html publicado.
+# ---------------------------------------------------------------------------
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # -- 1. www → domínio raiz (301) -----------------------------------------
+  # Sem isso o site responde nos dois endereços e o Google trata como
+  # conteúdo duplicado, dividindo a força entre as duas versões.
+  RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
+  RewriteRule ^ https://%1%{REQUEST_URI} [L,R=301]
+
+  # -- 2. HTML pré-renderizado para robôs ----------------------------------
+  # O site é uma SPA React: o HTML servido é só <div id="root"></div> e o
+  # conteúdo aparece quando o JavaScript roda. Buscadores levam semanas para
+  # renderizar isso e os robôs de IA (GPTBot, ClaudeBot, PerplexityBot…) não
+  # executam JavaScript nenhum — para eles a página chega vazia.
+  #
+  # Aqui esses robôs recebem `prerender.html`, que é a MESMA página com o
+  # conteúdo já preenchido (gerada no build por scripts/prerender.mjs).
+  # Visitante humano não passa por esta regra: recebe o site normal, com
+  # todas as animações intactas.
+  #
+  # O conteúdo entregue é equivalente ao que o navegador renderiza, então
+  # não é cloaking — é o "dynamic rendering" documentado pelo próprio Google.
+  RewriteCond %{HTTP_USER_AGENT} (googlebot|bingbot|duckduckbot|yandexbot|baiduspider|applebot|slurp|gptbot|oai-searchbot|chatgpt-user|claudebot|claude-web|claude-user|anthropic-ai|perplexitybot|perplexity-user|meta-externalagent|facebookexternalhit|twitterbot|linkedinbot|whatsapp|telegrambot|discordbot|bytespider|amazonbot|cohere-ai|diffbot|ia_archiver) [NC]
+  RewriteCond %{DOCUMENT_ROOT}/prerender.html -f
+  RewriteRule ^$ /prerender.html [L]
+
+  # Mesma coisa para quem pedir a raiz escrevendo "/index.html".
+  RewriteCond %{HTTP_USER_AGENT} (googlebot|bingbot|duckduckbot|yandexbot|baiduspider|applebot|slurp|gptbot|oai-searchbot|chatgpt-user|claudebot|claude-web|claude-user|anthropic-ai|perplexitybot|perplexity-user|meta-externalagent|facebookexternalhit|twitterbot|linkedinbot|whatsapp|telegrambot|discordbot|bytespider|amazonbot|cohere-ai|diffbot|ia_archiver) [NC]
+  RewriteCond %{DOCUMENT_ROOT}/prerender.html -f
+  RewriteRule ^index\.html$ /prerender.html [L]
+</IfModule>
+
+# -- 3. Compressão ----------------------------------------------------------
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css
+  AddOutputFilterByType DEFLATE application/javascript application/x-javascript
+  AddOutputFilterByType DEFLATE application/json application/xml
+  AddOutputFilterByType DEFLATE image/svg+xml application/manifest+json
+</IfModule>
+
+# -- 4. Cache ---------------------------------------------------------------
+# Os arquivos em /assets/ levam hash no nome (index-BbNALYiL.js): quando o
+# conteúdo muda, o nome muda. Por isso podem ser cacheados por 1 ano.
+# O HTML NÃO pode: é ele que aponta para os hashes novos a cada publicação.
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType text/css                      "access plus 1 year"
+  ExpiresByType application/javascript        "access plus 1 year"
+  ExpiresByType image/webp                    "access plus 1 year"
+  ExpiresByType image/png                     "access plus 1 year"
+  ExpiresByType image/jpeg                    "access plus 1 year"
+  ExpiresByType image/svg+xml                 "access plus 1 year"
+  ExpiresByType video/mp4                     "access plus 1 year"
+  ExpiresByType font/woff2                    "access plus 1 year"
+  ExpiresByType text/html                     "access plus 0 seconds"
+</IfModule>
+
+<IfModule mod_headers.c>
+  <FilesMatch "\.(js|css|webp|png|jpe?g|svg|mp4|woff2?|ico)$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+  <FilesMatch "\.(html|xml|txt|webmanifest)$">
+    Header set Cache-Control "public, max-age=0, must-revalidate"
+  </FilesMatch>
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
+
+# -- 5. Tipos MIME ----------------------------------------------------------
+<IfModule mod_mime.c>
+  AddType image/webp                  .webp
+  AddType application/manifest+json   .webmanifest
+  AddType font/woff2                  .woff2
+</IfModule>
+
+# -- 6. Página de erro ------------------------------------------------------
+# Site de página única: qualquer endereço desconhecido volta para a home.
+ErrorDocument 404 /index.html

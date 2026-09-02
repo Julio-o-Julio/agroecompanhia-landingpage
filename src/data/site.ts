@@ -68,9 +68,12 @@ export const STATS = [
   },
   {
     value: 500,
+    // ⚠️ PLACEHOLDER: número ainda não confirmado pela empresa. O `hint` foi
+    // esvaziado porque o texto "PLACEHOLDER — confirmar" estava aparecendo
+    // no site publicado. Confirme o número real e escreva a legenda aqui.
     suffix: "+",
     label: "plataformas atendidas",
-    hint: "PLACEHOLDER — confirmar",
+    hint: "",
   },
   {
     value: 6,
