@@ -89,7 +89,7 @@ vazia. Por isso o build gera uma segunda versão do HTML, já preenchida, só pa
 
 | Arquivo | Origem | O que faz |
 | --- | --- | --- |
-| `dist/prerender.html` | `scripts/prerender.mjs` | A página inteira em HTML puro (~1.200 palavras). Gerada abrindo o build num Chromium headless com `prefers-reduced-motion`, o modo em que o site já renderiza estático. |
+| `public/prerender.html` | `scripts/prerender.mjs` | A página inteira em HTML puro (~1.200 palavras). Gerada abrindo o build num Chromium headless com `prefers-reduced-motion`, o modo em que o site já renderiza estático. **É versionado de propósito** — veja abaixo. |
 | `public/.htaccess` | manual | Manda os robôs conhecidos para o `prerender.html`, redireciona `www` → domínio raiz e define cache. |
 | `public/robots.txt` | manual | Libera buscadores **e** assistentes de IA. Aponta o sitemap. |
 | `public/sitemap.xml` | manual | Uma URL (o site é página única). Atualize o `lastmod` em mudanças grandes. |
@@ -112,7 +112,22 @@ Se você adicionar conteúdo que só aparece depois de um clique (aba, modal, ac
 **não** entra no HTML dos robôs. Ou o conteúdo nasce montado, ou `scripts/prerender.mjs` precisa
 abrir aquilo antes de capturar — é o que ele já faz com o FAQ.
 
-Sem Chromium instalado o build **não quebra**: avisa e segue sem gerar o `prerender.html`.
+### Por que `public/prerender.html` e o JSON-LD ficam commitados
+
+O servidor que publica o site roda o build **sem Chromium**, e lá esta etapa falha. Por isso o
+`pnpm build` grava o resultado em dois arquivos versionados — `public/prerender.html` e o bloco
+`data-generated="prerender"` dentro do `index.html` da raiz — e você os commita junto com o
+resto. Qualquer build depois disso já encontra tudo pronto: o Vite copia `public/` para `dist/`
+sozinho, com ou sem browser instalado.
+
+Reescrever é idempotente: rodar `pnpm build` duas vezes seguidas não muda uma vírgula. Se você
+alterar textos em `src/data/site.ts`, rode o build **na sua máquina** e commite os dois arquivos
+— senão os robôs continuam lendo o conteúdo antigo.
+
+Builds de subpasta (o do GitHub Pages, com `VITE_BASE`) não tocam nos arquivos versionados,
+para não commitar caminhos errados.
+
+Sem Chromium o build **não quebra**: avisa e segue com o `prerender.html` já versionado.
 O `.htaccess` só desvia robôs se o arquivo existir. Para gerar só ele: `pnpm prerender`.
 
 ---

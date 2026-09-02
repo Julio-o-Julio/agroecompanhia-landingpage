@@ -45,11 +45,26 @@ const MIME = {
   '.mp4': 'video/mp4',
 }
 
+/**
+ * Descobre em que caminho o site foi buildado.
+ *
+ * No GitHub Pages sem domínio próprio o Vite recebe `VITE_BASE=/<repo>/` e
+ * todos os caminhos do HTML saem com esse prefixo. Servir o `dist/` na raiz
+ * nesse caso dá 404 em tudo, o React não monta e a captura falha por timeout.
+ */
+async function detectarBase() {
+  const html = await readFile(join(DIST, 'index.html'), 'utf8')
+  const m = html.match(/<script[^>]+src="([^"]*\/)assets\//)
+  return m?.[1] || '/'
+}
+
 /** Servidor estático mínimo sobre dist/ — só para o Chromium ter o que abrir. */
-function serve() {
+function serve(base = '/') {
   const server = createServer(async (req, res) => {
     try {
-      const path = decodeURIComponent(new URL(req.url, 'http://x').pathname)
+      let path = decodeURIComponent(new URL(req.url, 'http://x').pathname)
+      // Tira o prefixo do base para achar o arquivo dentro de dist/.
+      if (base !== '/' && path.startsWith(base)) path = '/' + path.slice(base.length)
       const file = join(DIST, path === '/' ? 'index.html' : path)
       if (!file.startsWith(DIST)) {
         res.writeHead(403).end()
@@ -82,8 +97,12 @@ async function main() {
     return
   }
 
-  const server = await serve()
-  const base = `http://127.0.0.1:${server.address().port}`
+  const basePath = await detectarBase()
+  if (basePath !== '/') {
+    console.log(`[prerender] site buildado em "${basePath}" (VITE_BASE) — servindo daí.`)
+  }
+  const server = await serve(basePath)
+  const base = `http://127.0.0.1:${server.address().port}${basePath}`
   let browser
 
   try {
@@ -273,12 +292,34 @@ async function main() {
       '     Mesmo conteúdo do site, com o HTML já preenchido.\n' +
       `     Gerada automaticamente por scripts/prerender.mjs em ${new Date().toISOString()}. -->\n`
 
-    await writeFile(join(DIST, 'prerender.html'), note + withFaq(absolute), 'utf8')
+    const conteudo = note + withFaq(absolute)
+    await writeFile(join(DIST, 'prerender.html'), conteudo, 'utf8')
 
     // O mesmo JSON-LD vale para quem visita o site normal: o Google lê os
     // dados estruturados do index.html sem precisar renderizar nada.
-    const indexPath = join(DIST, 'index.html')
-    await writeFile(indexPath, withFaq(await readFile(indexPath, 'utf8')), 'utf8')
+    const distIndex = join(DIST, 'index.html')
+    await writeFile(distIndex, withFaq(await readFile(distIndex, 'utf8')), 'utf8')
+
+    // Só gravamos os arquivos versionados quando o build é o de produção
+    // (na raiz do domínio). Um build de subpasta — o do GitHub Pages, com
+    // VITE_BASE — deixaria caminhos errados commitados.
+    if (basePath !== '/') {
+      console.log('[prerender] build de subpasta: public/prerender.html não foi tocado.')
+      return
+    }
+
+    // Por que gravar em public/ e no index.html da raiz, que são versionados:
+    // o servidor que publica o site (Hostinger) roda o build sem Chromium, e
+    // lá esta etapa falha. Commitando o resultado, qualquer build leva os
+    // arquivos prontos — o Vite copia public/ para dist/ sozinho. Reescrever
+    // é idempotente: rodar duas vezes seguidas não muda nada.
+    const PUBLIC = resolve(import.meta.dirname, '..', 'public')
+    const ROOT = resolve(import.meta.dirname, '..')
+    await writeFile(join(PUBLIC, 'prerender.html'), conteudo, 'utf8')
+
+    const srcIndex = join(ROOT, 'index.html')
+    await writeFile(srcIndex, withFaq(await readFile(srcIndex, 'utf8')), 'utf8')
+    console.log('[prerender] public/prerender.html e index.html atualizados — commite os dois.')
 
     const text = await page.evaluate(() => document.body.innerText.replace(/\s+/g, ' ').trim())
     console.log(
